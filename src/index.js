@@ -3,10 +3,10 @@ import { z, ZodError } from "zod";
 import sheets, {SHEET_ID} from "./sheetClient.js"
 
 const app = express();
-const Schema = z.object({
-  matchID: z.number().min(1, {message: "Match ID needed"}),
-  thing: z.string()
-})
+// const Schema = z.object({
+//   matchID: z.number().min(1, {message: "Match ID needed"}),
+//   thing: z.string()
+// })
 
 app.use(express.json());
 app.use(express.static( 'public'));
@@ -15,9 +15,9 @@ app.post('/send-message', async (req, res) => {
 
   try {
     console.log(req.body)
-    const body = Schema.safeParse(req.body);
+    // const body = Schema.safeParse(req.body);
     // Object to Sheets
-    const rows = Object.values(body);
+    const rows = Object.values(req.body);
     console.log(rows);
 
     await sheets.spreadsheets.values.append({
@@ -26,7 +26,7 @@ app.post('/send-message', async (req, res) => {
       insertDataOption: 'INSERT_ROWS',
       valueInputOption: 'RAW',
       requestBody: {
-        values: [[rows]]
+        values: [rows]
       }
     });
     res.json({ message: 'Data added successfully' });
@@ -40,7 +40,7 @@ app.post('/send-message', async (req, res) => {
      else {
       res.status(400).json({ error });  
     }
-    console.log(error)
+    console.log( error)
   }
 });
 
