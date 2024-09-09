@@ -3,10 +3,10 @@ import { z, ZodError } from "zod";
 import sheets, {SHEET_ID} from "./sheetClient.js"
 
 const app = express();
-// const Schema = z.object({
-//   matchID: z.number().min(1, {message: "Match ID needed"}),
-//   thing: z.string()
-// })
+const Schema = z.object({
+  matchID: z.number().min(1, {message: "Match ID needed"}),
+  thing: z.string()
+})
 
 app.use(express.json());
 app.use(express.static( 'public'));
@@ -15,9 +15,9 @@ app.post('/send-message', async (req, res) => {
 
   try {
     console.log(req.body)
-    // const body = Schema.safeParse(req.body);
+    const body = Schema.parse(req.body);
     // Object to Sheets
-    const rows = Object.values(req.body);
+    const rows = Object.values(body);
     console.log(rows);
 
     await sheets.spreadsheets.values.append({
