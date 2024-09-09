@@ -9,19 +9,13 @@ const Schema = z.object({
 })
 
 app.use(express.json());
-app.use(express.static( 'public', {
-  setHeaders: (res, path) => {
-    if (path.endsWith('.js')) {
-      res.setHeader('Content-Type', 'application/javascript');
-    }
-  }
-}));
+app.use(express.static( 'public'));
 
 app.post('/send-message', async (req, res) => {
 
   try {
-    const body = Schema.parse(req.body);
-
+    console.log(req.body)
+    const body = Schema.safeParse(req.body);
     // Object to Sheets
     const rows = Object.values(body);
     console.log(rows);
@@ -32,15 +26,19 @@ app.post('/send-message', async (req, res) => {
       insertDataOption: 'INSERT_ROWS',
       valueInputOption: 'RAW',
       requestBody: {
-        values: [rows],
+        values: [[rows]]
       }
     });
     res.json({ message: 'Data added successfully' });
   } catch (error) {
     if (error instanceof ZodError) {
       res.status(400).json({ error: error.message });
-    } else {
-      res.status(400).json({ error });
+    } else if (error instanceof SyntaxError) {
+      console.error('JSON parsing error:', err);
+      res.status(400).send('Invalid JSON');
+    }
+     else {
+      res.status(400).json({ error });  
     }
     console.log(error)
   }
