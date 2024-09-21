@@ -1,14 +1,14 @@
 import { Html5QrcodeScanner } from 'html5-qrcode'
 import './App.css'
 import { useEffect, useState } from 'react';
-import { Axios } from 'axios';
+// import { Axios } from 'axios';
 
 function App() {
   const [result, setResult] = useState<string>();
   const [scanner, setScanner] = useState<Html5QrcodeScanner | null>(null);
   const [scanningRender, setScanningRender] = useState(false);
 
-  const meA = new Axios;
+  // const meA = new Axios;
   useEffect(() => {
     const newScanner = new Html5QrcodeScanner(
       'reader',
@@ -37,8 +37,8 @@ function App() {
             setScanningRender(false);
           }).catch(error => console.error("Failed to clear scanner", error));
         },
-        (error) => {
-          // console.warn(error);
+        () => {
+
         }
       );
     }
