@@ -31,7 +31,7 @@ function App() {
       scanner.render(
         (decodedText) => {
           setResult(decodedText);
-          meA.post("localhost:5000/add_data", decodedText);
+          console.log(meA.post("localhost:5000/add_data", decodedText));
           scanner.clear().then(() => {
             // console.log("Scanner cleared successfully");
             setScanningRender(false);
