@@ -23,15 +23,16 @@ function App() {
       }
     };
   }, []);
- 
-  const startScanning = () => {
+
+  const startScanning = async () => {
     setResult(undefined); 
     setScanningRender(true)
     if (scanner) {
       scanner.render(
         (decodedText) => {
           setResult(decodedText);
-          console.log(meA.post("localhost:5000/add_data", decodedText));
+          const result = meA.post("localhost:5000/add_data", decodedText);
+          console.log(result);
           scanner.clear().then(() => {
             // console.log("Scanner cleared successfully");
             setScanningRender(false);
