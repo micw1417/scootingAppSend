@@ -22,7 +22,7 @@ jobs:
 
       - name: Build project
         env:
-          API_URL: ${{ secrets.API_URL }}
+          VITE_API_URL: ${{ secrets.VITE_API_URL }}
         run: npm run build
 
       - name: Upload production-ready build files
