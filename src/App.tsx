@@ -8,6 +8,7 @@ function App() {
   const [scanner, setScanner] = useState<Html5QrcodeScanner | null>(null);
   const [scanningRender, setScanningRender] = useState(false);
   const apiUrl = import.meta.env.VITE_API_URL;
+  console.log(import.meta.env.VITE_API_URL);
   useEffect(() => {
     const newScanner = new Html5QrcodeScanner(
       'reader',
