@@ -21,7 +21,8 @@ jobs:
         uses: bahmutov/npm-install@v1
 
       - name: Build project
-        API_URL: ${{ secrets.API_URL }}
+        env:
+          API_URL: ${{ secrets.API_URL }}
         run: npm run build
 
       - name: Upload production-ready build files
