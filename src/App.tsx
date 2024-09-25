@@ -7,7 +7,7 @@ function App() {
   const [result, setResult] = useState<string>();
   const [scanner, setScanner] = useState<Html5QrcodeScanner | null>(null);
   const [scanningRender, setScanningRender] = useState(false);
-
+  const apiUrl = process.env.API_URL; 
   useEffect(() => {
     const newScanner = new Html5QrcodeScanner(
       'reader',
@@ -30,7 +30,7 @@ function App() {
       scanner.render(
         async (decodedText) => {
           setResult(decodedText);
-          const response = await axios.post("http://localhost:5000/add_data", { data: decodedText });
+          const response = await axios.post(apiUrl!, { data: decodedText });
           console.log(response);
           scanner.clear().then(() => {
             // console.log("Scanner cleared successfully");
